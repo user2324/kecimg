@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.18.12/package/dist/xlsx.full.min.js"></script>
+    
+    <title>KEC - Root Details</title>
+    <style>
+        @font-face {
+            font-family: 'Bk Antiqua';
+            src: url('BKANT.TTF');
+        }
+        body{
+            font-family: 'Bk Antiqua';
+            font-size: 20px;
+        }
+        img{
+            width: 200px;
+            height: 200px;
+            border:1px solid black;
+        }
+        #student-data{
+            display: none;
+        }
+        thead tr th,table {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h3 class="text-center">Kongu Engineering College<br><b>New Update Available - Updated 1st Year Photos</b></h3>
+    <div class="mt-5">
+        <div class="row text-center">
+        <div class="col-md-4 mb-1"> <button type="button" class="btn btn-success" onclick="onsbr();">Search By Roll</button>    </div>    
+        <div class="col-md-4 mb-1"><button type="button" class="btn btn-success" onclick="onsbdept();">Search By Department</button></div> 
+        <div class="col-md-4 mb-1"><button type="button" class="btn btn-success" onclick="listdept();">List Roll-Department</button> </div> 
+    </div>
+    </div>
+    <div id="for" class="container text-center mt-5">
+        
+    </div>
+    </form>
+    <div id="listt">
+        
+    </div>
+    <div id="IMG" class="container text-center mt-5">
+    </div>
+    <div id="student-data"><br>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" colspan="2">Student Details</th>
+              </tr>
+            </thead>
+            <tbody>
+                <th scope="row">Roll Number</th>
+                <td id="sd1"></td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td id="sd2"></td>
+              </tr>
+              <tr>
+                <th scope="row">Year</th>
+                <td id="sd3"></td>
+              </tr>
+              <tr>
+                <th scope="row">Branch</th>
+                <td id="sd4"></td>
+              </tr>
+              <tr>
+                <th scope="row">Semester</th>
+                <td id="sd5"></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+</body>
+<script>
+    //Excel Reading
+
+    var fileName = "student_details.xlsx";
+    var file;
+    var getFileBlob = function (url, cb) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "blob";
+        xhr.addEventListener('load', function() {
+            cb(xhr.response);
+        });
+        xhr.send();
+    };
+
+    var blobToFile = function (blob, name) {
+            blob.lastModifiedDate = new Date();
+            blob.name = name;
+            return blob;
+    };
+
+    var getFileObject = function(filePathOrUrl, cb) {
+        getFileBlob(filePathOrUrl, function (blob) {
+            cb(blobToFile(blob, 'student_details.xlsx'));
+        });
+    };
+    let depts_roll = ['isr','bsr','bcr','bir','mcr','mbr','ifr','mfr','mhr','itr','itl','ftr','chr','mtr','mer','eir','eer','ecr','csr','cer','aur','aer','cor','msr','cmr'];
+    let depts_name = ['m.sc-ss(5Y)','b.sc-ss','b.sc-csd','b.sc-is','mca','mba','m.tech-it','m.tech-food','m.tech-chemical','b.tech-it','b.tech-it-lateral','b.tech-food','b.tech-chemical','be-mechatronics','be-mechanical','be-eie','be-eee','be-ece','be-cse','be-civil','be-automobile','me-ae','me-cs','me-cse','me-ce'];
+    function listdept(){
+        document.getElementById("student-data").style.display = "none";
+        document.getElementById('IMG').innerHTML = "";
+        document.getElementById('listt').innerHTML = "";
+        let r = "<table class='table table-bordered mt-5 text-center'><tr><th>Roll</th><th>Department</th></tr>";
+        for(let i=0;i<depts_roll.length;i++)
+        {
+           r+='<tr><td>'+depts_roll[i].toUpperCase()+'</td><td>'+depts_name[i].toUpperCase();+'</td></tr>';
+        }
+        document.getElementById('listt').innerHTML = r + "</table>";
+    }
+    function print_img()
+    {
+        document.getElementById('listt').innerHTML = "";
+        event.preventDefault();
+        var k = document.getElementById('year').value;
+        var r = document.getElementById('roll').value;
+        r = k+r.toUpperCase();
+        var n = document.getElementById('nos').value;
+        let type = (r.startsWith("22"))?"JPG":"jpg";
+        var IMG_CON = '<img src="https://results.kongu.edu/Photos/'+r+'001.'+ type +'" title="'+r+'001">';
+        for(var k=2;k<=n;k++)
+        {
+            var kk;
+            if(k<10)
+                kk = '00'+k;
+            else if(k<100)
+                kk = '0'+k;
+            else    
+                kk = k;
+            let samp = '<img src="https://results.kongu.edu/Photos/'+r+kk+'.'+ type +'" title='+r+kk+'>';
+            IMG_CON = IMG_CON + samp;
+        }
+        document.getElementById('IMG').innerHTML = IMG_CON;
+    }
+    function onsbdept()
+    {
+        document.getElementById("student-data").style.display = "none";
+        document.getElementById('IMG').innerHTML = "";
+        document.getElementById('listt').innerHTML = "";
+        let kkk = '<form action="#" method="post" onsubmit="print_img();">\
+    Enter Year :\
+    <select class="form-control" name="year" id="year" required>\
+            <option value="16">2016</option>\
+            <option value="17">2017</option>\
+            <option value="18">2018</option>\
+            <option value="19">2019</option>\
+            <option value="20">2020</option>\
+            <option value="21">2021</option>\
+            <option value="22">2022</option>\
+        </select>\
+    Enter Department :\
+    <select class="form-control" name="roll" id="roll">';
+            for(let i=0;i<depts_roll.length;i++)
+            {
+                kkk+='<option value="'+depts_roll[i]+'"">'+depts_name[i].toUpperCase()+'</option>';
+            }
+       kkk+=' </select>\
+    Enter Number of Students : \
+    <input class="form-control mb-2 " type="number" id="nos" required>\
+    <button type="submit" class="btn btn-primary">Print</button>'
+    document.getElementById('for').innerHTML = kkk;
+    }
+    function onsbr()
+    {
+        document.getElementById("student-data").style.display = "none";
+        document.getElementById('IMG').innerHTML = "";
+        document.getElementById('listt').innerHTML = "";
+        document.getElementById('for').innerHTML = '<form action="#" method="post" onsubmit="print_img_br();">\
+    Enter Roll :\
+    <input class="form-control mb-2 " type="text" id="roll1" required>\
+    <button type="submit"class="btn btn-primary">Print</button>';
+    }
+    function print_img_br()
+    {
+        document.getElementById('listt').innerHTML = "";
+        event.preventDefault();
+        var r = document.getElementById('roll1').value;
+        kk = r.toUpperCase();
+        let type = (kk.startsWith("22"))?"JPG":"jpg";
+        document.getElementById('IMG').innerHTML = '<img src="https://results.kongu.edu/Photos/'+kk+'.'+ type +'" title='+kk+'>';
+        SearchStudentList(r);
+    }
+
+    getFileObject(fileName, function (fileObject) {
+        file = fileObject;
+    });
+    function SearchStudentList(roll){
+    var reader = new FileReader();
+      reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: "array" });
+
+        var first_sheet_name = workbook.SheetNames[0];
+
+        var worksheet = workbook.Sheets[first_sheet_name];
+        var json = XLSX.utils.sheet_to_json(worksheet);
+
+        var i;
+        main:for (var key in json) {
+          i = 1;
+          for (var header in json[key]) {
+            if(i++ == 2){
+                if(json[key][header] == roll){
+                    document.getElementById("student-data").style.display = "block";
+                    var k = 0;
+                    for (var header in json[key]) {
+                        if(k>0)
+                        document.getElementById("sd"+k).textContent = json[key][header];
+                        k++
+                    }
+                    i = -1;
+                    break main;
+                }
+            }
+          }
+        }
+        if(i != -1){
+            document.getElementById("student-data").style.display = "none";
+            alert("No Records Found !!");
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+</script>
+</html>
