@@ -35,6 +35,7 @@
 <body>
     <div class="container">
     <h3 class="text-center">Kongu Engineering College<br><b>New Update Available - Updated 1st Year Photos-2023 Batch</b></h3>
+    <h4 class="text-center">CSD, AIDS, AIML Now Available</h4>
     <div class="mt-5">
         <div class="row text-center">
         <div class="col-md-4 mb-1"> <button type="button" class="btn btn-success" onclick="onsbr();">Search By Roll</button>    </div>    
@@ -109,8 +110,8 @@
             cb(blobToFile(blob, 'student_details.xlsx'));
         });
     };
-    let depts_roll = ['isr','bsr','bcr','bir','mcr','mbr','ifr','mfr','mhr','itr','itl','ftr','chr','mtr','mer','eir','eer','ecr','csr','cer','aur','aer','cor','msr','cmr'];
-    let depts_name = ['m.sc-ss(5Y)','b.sc-ss','b.sc-csd','b.sc-is','mca','mba','m.tech-it','m.tech-food','m.tech-chemical','b.tech-it','b.tech-it-lateral','b.tech-food','b.tech-chemical','be-mechatronics','be-mechanical','be-eie','be-eee','be-ece','be-cse','be-civil','be-automobile','me-ae','me-cs','me-cse','me-ce'];
+    let depts_roll = ['isr','bsr','bcr','bir','mcr','mbr','ifr','mfr','mhr','itr','ftr','chr','alr','adr','cdr','mtr','mer','eir','eer','ecr','csr','cer','aur','aer','cor','msr','cmr'];
+    let depts_name = ['m.sc - ss(5Y)','b.sc - ss','b.sc - csd','b.sc - is','mca','mba','m.tech - it','m.tech - food','m.tech - chemical','b.tech - it','b.tech - food','b.tech - chemical','B.Tech - AIML','B.Tech - AIDS','B.E - CSD','B.E - Mechatronics','B.E - Mechanical','B.E - EIE','B.E - EEE','B.E - ece','b.e - cse','b.e - civil','b.e - automobile','m.e - ae','m.e - cs','m.e - cse','m.e - ce'];
     function listdept(){
         document.getElementById("student-data").style.display = "none";
         document.getElementById('IMG').innerHTML = "";
